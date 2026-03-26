@@ -1,4 +1,4 @@
-package com.ecamschool.regional_sync_core;
+package com.ecamschool.regional;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
