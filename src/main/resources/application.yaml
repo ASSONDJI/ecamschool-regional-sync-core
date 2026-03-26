@@ -2,7 +2,7 @@ spring:
   application:
     name: regional-sync-core
   datasource:
-    url: JDBC:mysql://localhost:3306/ecamschool_regional_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/ecamschool_regional_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: root123
     driver-class-name: com.mysql.cj.jdbc.Driver
