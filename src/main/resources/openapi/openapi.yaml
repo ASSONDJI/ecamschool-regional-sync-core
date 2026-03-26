@@ -1,0 +1,436 @@
+openapi: 3.0.1
+info:
+  title: E-Camschool Regional Sync Core API
+  description: API pour la synchronisation des données de la Délégation Régionale du Centre
+  version: 1.0.0
+  contact:
+    name: ASSONDJI Malaika
+    email: amalaikaladesse@gmail.com
+
+servers:
+  - url: http://localhost:8080/api
+    description: Serveur de développement
+
+tags:
+  - name: Users
+    description: Gestion des utilisateurs
+  - name: Educational Establishments
+    description: Gestion des établissements scolaires
+  - name: Data Matrix
+    description: Gestion de la matrice de données
+  - name: Sync
+    description: Synchronisation des données
+
+paths:
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Récupérer tous les utilisateurs
+      responses:
+        '200':
+          description: Liste des utilisateurs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - Users
+      summary: Créer un nouvel utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: Utilisateur créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Récupérer un utilisateur par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Utilisateur trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Utilisateur non trouvé
+
+
+  /establishments:
+    get:
+      tags:
+        - Educational Establishments
+      summary: Récupérer tous les établissements
+      responses:
+        '200':
+          description: Liste des établissements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EducationalEstablishment'
+    post:
+      tags:
+        - Educational Establishments
+      summary: Créer un nouvel établissement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationalEstablishmentRequest'
+      responses:
+        '201':
+          description: Établissement créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationalEstablishment'
+
+  /establishments/{id}:
+    get:
+      tags:
+        - Educational Establishments
+      summary: Récupérer un établissement par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Établissement trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationalEstablishment'
+        '404':
+          description: Établissement non trouvé
+
+  /establishments/delegation/{region}:
+    get:
+      tags:
+        - Educational Establishments
+      summary: Récupérer les établissements par délégation régionale
+      parameters:
+        - name: region
+          in: path
+          required: true
+          schema:
+            type: string
+          description: CENTRE, LITTORAL, etc.
+      responses:
+        '200':
+          description: Liste des établissements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EducationalEstablishment'
+
+
+  /data-matrix:
+    get:
+      tags:
+        - Data Matrix
+      summary: Récupérer toutes les entrées de la matrice
+      responses:
+        '200':
+          description: Liste des entrées
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataMatrix'
+    post:
+      tags:
+        - Data Matrix
+      summary: Sauvegarder une donnée dans la matrice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataMatrixRequest'
+      responses:
+        '201':
+          description: Donnée sauvegardée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataMatrix'
+
+  /data-matrix/client/{clientKey}:
+    get:
+      tags:
+        - Data Matrix
+      summary: Récupérer une donnée par clientKey
+      parameters:
+        - name: clientKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Donnée trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataMatrix'
+        '404':
+          description: Donnée non trouvée
+
+  /sync/pending:
+    get:
+      tags:
+        - Sync
+      summary: Récupérer les données en attente de synchronisation
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filtrer par utilisateur
+        - name: establishmentId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filtrer par établissement
+      responses:
+        '200':
+          description: Liste des données en attente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataMatrix'
+
+  /sync/process:
+    post:
+      tags:
+        - Sync
+      summary: Traiter la synchronisation des données
+      responses:
+        '200':
+          description: Synchronisation effectuée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  synced:
+                    type: integer
+                  failed:
+                    type: integer
+
+components:
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "jdupont"
+        email:
+          type: string
+          example: "jean.dupont@ecamschool.cm"
+        password:
+          type: string
+          example: "encrypted_password"
+        fullName:
+          type: string
+          example: "Jean Dupont"
+        role:
+          type: string
+          enum: [ADMIN, DELEGUE, CHEF_ETABLISSEMENT]
+          example: "DELEGUE"
+        delegationRegion:
+          type: string
+          example: "CENTRE"
+        department:
+          type: string
+          example: "Mfoundi"
+        isActive:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+        lastLoginAt:
+          type: string
+          format: date-time
+
+    UserRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - fullName
+        - role
+        - delegationRegion
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        fullName:
+          type: string
+        role:
+          type: string
+        delegationRegion:
+          type: string
+        department:
+          type: string
+
+
+    EducationalEstablishment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        code:
+          type: string
+          example: "LYC001"
+        name:
+          type: string
+          example: "Lycée Général Leclerc"
+        city:
+          type: string
+          example: "Yaoundé"
+        department:
+          type: string
+          example: "Mfoundi"
+        delegationRegion:
+          type: string
+          example: "CENTRE"
+        type:
+          type: string
+          enum: [PUBLIC, PRIVATE]
+          example: "PUBLIC"
+        isActive:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+
+    EducationalEstablishmentRequest:
+      type: object
+      required:
+        - code
+        - name
+        - city
+        - department
+        - delegationRegion
+        - type
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        department:
+          type: string
+        delegationRegion:
+          type: string
+        type:
+          type: string
+
+
+    DataMatrix:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        clientKey:
+          type: string
+          example: "client_001"
+        dataValue:
+          type: object
+          description: Données stockées au format JSON
+          example:
+            teacher: "Jean Paul"
+            subject: "Mathematics"
+            deficit: 2
+        syncStatus:
+          type: string
+          enum: [PENDING, SYNCED, FAILED]
+          example: "PENDING"
+        createdAt:
+          type: string
+          format: date-time
+        syncedAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          example: 1
+        errorMessage:
+          type: string
+          example: "Connection timeout"
+        dataType:
+          type: string
+          enum: [TEACHER_NEED, SCHOOL_STATS, TEACHER_BALANCE]
+          example: "TEACHER_NEED"
+        user:
+          $ref: '#/components/schemas/User'
+        establishment:
+          $ref: '#/components/schemas/EducationalEstablishment'
+
+    DataMatrixRequest:
+      type: object
+      required:
+        - clientKey
+        - dataValue
+      properties:
+        clientKey:
+          type: string
+        dataValue:
+          type: object
+        dataType:
+          type: string
+        userId:
+          type: integer
+          description: ID de l'utilisateur associé
+        establishmentId:
+          type: integer
+          description: ID de l'établissement associé
