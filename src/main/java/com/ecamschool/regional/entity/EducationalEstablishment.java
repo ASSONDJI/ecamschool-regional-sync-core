@@ -8,38 +8,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "educational_establishments")
+public class EducationalEstablishment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    private String code;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+    @Column(nullable = false, length = 200)
+    private String name;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = false, length = 100)
+    private String city;
 
     @Column(nullable = false, length = 50)
-    private String role;
-
-    @Column(name = "full_name", nullable = false, length = 100)
-    private String fullName;
+    private String department;
 
     @Column(name = "delegation_region", nullable = false, length = 50)
     private String delegationRegion;
 
-    @Column(length = 50)
-    private String department;
+    @Column(nullable = false, length = 20)
+    private String type;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
@@ -47,11 +43,7 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
-
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "establishment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DataMatrix> dataMatrices = new ArrayList<>();
 
     @PrePersist

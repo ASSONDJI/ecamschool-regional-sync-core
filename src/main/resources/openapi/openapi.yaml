@@ -22,12 +22,12 @@ tags:
     description: Synchronisation des données
 
 paths:
-
   /users:
     get:
       tags:
         - Users
       summary: Récupérer tous les utilisateurs
+      operationId: getAllUsers
       responses:
         '200':
           description: Liste des utilisateurs
@@ -41,6 +41,7 @@ paths:
       tags:
         - Users
       summary: Créer un nouvel utilisateur
+      operationId: createUser
       requestBody:
         required: true
         content:
@@ -60,6 +61,7 @@ paths:
       tags:
         - Users
       summary: Récupérer un utilisateur par ID
+      operationId: getUserById
       parameters:
         - name: id
           in: path
@@ -76,12 +78,12 @@ paths:
         '404':
           description: Utilisateur non trouvé
 
-
   /establishments:
     get:
       tags:
         - Educational Establishments
       summary: Récupérer tous les établissements
+      operationId: getAllEstablishments
       responses:
         '200':
           description: Liste des établissements
@@ -95,6 +97,7 @@ paths:
       tags:
         - Educational Establishments
       summary: Créer un nouvel établissement
+      operationId: createEstablishment
       requestBody:
         required: true
         content:
@@ -114,6 +117,7 @@ paths:
       tags:
         - Educational Establishments
       summary: Récupérer un établissement par ID
+      operationId: getEstablishmentById
       parameters:
         - name: id
           in: path
@@ -135,6 +139,7 @@ paths:
       tags:
         - Educational Establishments
       summary: Récupérer les établissements par délégation régionale
+      operationId: getEstablishmentsByDelegationRegion
       parameters:
         - name: region
           in: path
@@ -152,12 +157,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/EducationalEstablishment'
 
-
   /data-matrix:
     get:
       tags:
         - Data Matrix
       summary: Récupérer toutes les entrées de la matrice
+      operationId: getAllDataMatrices
       responses:
         '200':
           description: Liste des entrées
@@ -171,6 +176,7 @@ paths:
       tags:
         - Data Matrix
       summary: Sauvegarder une donnée dans la matrice
+      operationId: createDataMatrix
       requestBody:
         required: true
         content:
@@ -190,6 +196,7 @@ paths:
       tags:
         - Data Matrix
       summary: Récupérer une donnée par clientKey
+      operationId: getDataMatrixByClientKey
       parameters:
         - name: clientKey
           in: path
@@ -211,6 +218,7 @@ paths:
       tags:
         - Sync
       summary: Récupérer les données en attente de synchronisation
+      operationId: getPendingSync
       parameters:
         - name: userId
           in: query
@@ -239,6 +247,7 @@ paths:
       tags:
         - Sync
       summary: Traiter la synchronisation des données
+      operationId: processSync
       responses:
         '200':
           description: Synchronisation effectuée
@@ -254,7 +263,6 @@ paths:
 
 components:
   schemas:
-
     User:
       type: object
       properties:
@@ -318,7 +326,6 @@ components:
         department:
           type: string
 
-
     EducationalEstablishment:
       type: object
       properties:
@@ -373,7 +380,6 @@ components:
           type: string
         type:
           type: string
-
 
     DataMatrix:
       type: object
