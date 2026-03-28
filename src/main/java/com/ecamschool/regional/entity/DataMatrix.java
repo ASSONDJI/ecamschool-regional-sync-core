@@ -1,5 +1,7 @@
 package com.ecamschool.regional.entity;
 
+import com.ecamschool.regional.enums.DataType;
+import com.ecamschool.regional.enums.SyncStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +25,9 @@ public class DataMatrix {
     @Column(name = "data_value", nullable = false, columnDefinition = "TEXT")
     private String dataValue;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "sync_status", nullable = false, length = 20)
-    private String syncStatus = "PENDING";
+    private SyncStatus syncStatus = SyncStatus.PENDING;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -38,9 +41,9 @@ public class DataMatrix {
     @Column(name = "error_message")
     private String errorMessage;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "data_type", length = 50)
-    private String dataType;
-
+    private DataType dataType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -54,7 +57,7 @@ public class DataMatrix {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         if (syncStatus == null) {
-            syncStatus = "PENDING";
+            syncStatus = SyncStatus.PENDING;
         }
         if (version == null) {
             version = 1;
