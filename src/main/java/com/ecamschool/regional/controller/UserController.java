@@ -7,6 +7,7 @@ import com.ecamschool.regional.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,5 +39,11 @@ public class UserController implements UsersApi {
     public ResponseEntity<UserDTO> getUserById(Integer id) {
         log.debug("REST request to get user by id: {}", id);
         return ResponseEntity.ok(userService.getUserById(id.longValue()));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<List<UserDTO>> getUsersPost() {
+        log.debug("POST request to get all users (for framework compatibility)");
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 }

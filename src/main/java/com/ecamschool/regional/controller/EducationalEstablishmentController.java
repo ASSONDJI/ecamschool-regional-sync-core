@@ -7,6 +7,7 @@ import com.ecamschool.regional.service.EducationalEstablishmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -46,5 +47,11 @@ public class EducationalEstablishmentController implements EducationalEstablishm
         log.debug("REST request to create establishment: {}", request.getCode());
         EducationalEstablishmentDTO created = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PostMapping("/establishments")
+    public ResponseEntity<List<EducationalEstablishmentDTO>> getEstablishmentsPost() {
+        log.debug("POST request to get all establishments (for framework compatibility)");
+        return ResponseEntity.ok(service.getAll());
     }
 }
