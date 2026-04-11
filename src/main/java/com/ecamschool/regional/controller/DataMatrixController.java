@@ -7,6 +7,7 @@ import com.ecamschool.regional.service.DataMatrixService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,5 +39,11 @@ public class DataMatrixController implements DataMatrixApi {
         log.debug("REST request to create data matrix with clientKey: {}", request.getClientKey());
         DataMatrixDTO created = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PostMapping("/data-matrix")
+    public ResponseEntity<List<DataMatrixDTO>> getDataMatrixPost() {
+        log.debug("POST request to get all data matrices (for framework compatibility)");
+        return ResponseEntity.ok(service.getAll());
     }
 }
