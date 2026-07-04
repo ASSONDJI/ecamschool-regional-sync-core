@@ -41,6 +41,20 @@ public class DataMatrixController implements DataMatrixApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @Override
+    public ResponseEntity<DataMatrixDTO> updateDataMatrix(String clientKey, DataMatrixRequestDTO request) {
+        log.debug("REST request to update data matrix with clientKey: {}", clientKey);
+        DataMatrixDTO updated = service.update(clientKey, request);
+        return ResponseEntity.ok(updated);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteDataMatrix(String clientKey) {
+        log.debug("REST request to delete data matrix with clientKey: {}", clientKey);
+        service.deleteByClientKey(clientKey);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/data-matrix")
     public ResponseEntity<List<DataMatrixDTO>> getDataMatrixPost() {
         log.debug("POST request to get all data matrices (for framework compatibility)");

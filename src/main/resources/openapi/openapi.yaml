@@ -77,6 +77,48 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: Utilisateur non trouvé
+    put:
+      tags:
+        - Users
+      summary: Mettre à jour un utilisateur
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Utilisateur mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Utilisateur non trouvé
+    delete:
+      tags:
+        - Users
+      summary: Supprimer un utilisateur
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Utilisateur supprimé
+        '404':
+          description: Utilisateur non trouvé
 
   /establishments:
     get:
@@ -131,6 +173,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EducationalEstablishment'
+        '404':
+          description: Établissement non trouvé
+    put:
+      tags:
+        - Educational Establishments
+      summary: Mettre à jour un établissement
+      operationId: updateEstablishment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationalEstablishmentRequest'
+      responses:
+        '200':
+          description: Établissement mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationalEstablishment'
+        '404':
+          description: Établissement non trouvé
+    delete:
+      tags:
+        - Educational Establishments
+      summary: Supprimer un établissement
+      operationId: deleteEstablishment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Établissement supprimé
         '404':
           description: Établissement non trouvé
 
@@ -210,6 +294,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DataMatrix'
+        '404':
+          description: Donnée non trouvée
+    put:
+      tags:
+        - Data Matrix
+      summary: Mettre à jour une donnée par clientKey
+      operationId: updateDataMatrix
+      parameters:
+        - name: clientKey
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataMatrixRequest'
+      responses:
+        '200':
+          description: Donnée mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataMatrix'
+        '404':
+          description: Donnée non trouvée
+    delete:
+      tags:
+        - Data Matrix
+      summary: Supprimer une donnée par clientKey
+      operationId: deleteDataMatrix
+      parameters:
+        - name: clientKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Donnée supprimée
         '404':
           description: Donnée non trouvée
 

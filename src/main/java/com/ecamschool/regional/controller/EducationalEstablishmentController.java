@@ -49,6 +49,21 @@ public class EducationalEstablishmentController implements EducationalEstablishm
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @Override
+    public ResponseEntity<EducationalEstablishmentDTO> updateEstablishment(
+            Integer id, EducationalEstablishmentRequestDTO request) {
+        log.debug("REST request to update establishment: {}", id);
+        EducationalEstablishmentDTO updated = service.update(id.longValue(), request);
+        return ResponseEntity.ok(updated);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteEstablishment(Integer id) {
+        log.debug("REST request to delete establishment: {}", id);
+        service.delete(id.longValue());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/establishments")
     public ResponseEntity<List<EducationalEstablishmentDTO>> getEstablishmentsPost() {
         log.debug("POST request to get all establishments (for framework compatibility)");

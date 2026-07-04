@@ -41,6 +41,20 @@ public class UserController implements UsersApi {
         return ResponseEntity.ok(userService.getUserById(id.longValue()));
     }
 
+    @Override
+    public ResponseEntity<UserDTO> updateUser(Integer id, UserRequestDTO userRequestDTO) {
+        log.debug("REST request to update user: {}", id);
+        UserDTO updated = userService.updateUser(id.longValue(), userRequestDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(Integer id) {
+        log.debug("REST request to delete user: {}", id);
+        userService.deleteUser(id.longValue());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/users")
     public ResponseEntity<List<UserDTO>> getUsersPost() {
         log.debug("POST request to get all users (for framework compatibility)");
